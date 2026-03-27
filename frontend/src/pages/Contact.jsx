@@ -45,35 +45,40 @@ export default function Contact() {
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length > 0) {
-      setErrors(errs);
-      toast.error('Please fix the errors below');
-      return;
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const errs = validate();
+  if (Object.keys(errs).length > 0) {
+    setErrors(errs);
+    toast.error('Please fix the errors below');
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const API =
+      window.location.hostname === "localhost"
+        ? "http://localhost:5000"
+        : "https://portfolio-production-fe7cd.up.railway.app";
+
+    const res = await axios.post(`${API}/api/contact`, form);
+
+    if (res.data.success) {
+      setSent(true);
+      setForm(initialForm);
+      toast.success(res.data.message || 'Message sent! 🚀');
     }
 
-    setLoading(true);
-    try {
-     const API =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "https://portfolio-production-fe7cd.up.railway.app";
-
-axios.post(`${API}/api/contact`, formData);
-      if (res.data.success) {
-        setSent(true);
-        setForm(initialForm);
-        toast.success(res.data.message || 'Message sent! I\'ll get back to you soon 🚀');
-      }
-    } catch (err) {
-      const msg = err.response?.data?.message || 'Something went wrong. Please try again.';
-      toast.error(msg);
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch (err) {
+    console.error(err);
+    const msg = err.response?.data?.message || 'Something went wrong. Please try again.';
+    toast.error(msg);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const inputStyle = (field) => ({
     width: '100%',
