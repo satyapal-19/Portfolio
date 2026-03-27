@@ -56,7 +56,12 @@ export default function Contact() {
 
     setLoading(true);
     try {
-      const res = await axios.post('/api/contact', form);
+     const API =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000"
+    : "portfolio-production-fe7cd.up.railway.app";
+
+axios.post(`${API}/api/contact`, formData);
       if (res.data.success) {
         setSent(true);
         setForm(initialForm);
