@@ -1,0 +1,264 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Custom Properties ─── */
+:root {
+  --accent: #00FF94;
+  --accent-dark: #00CC77;
+  --neon-blue: #00D4FF;
+  --neon-purple: #BD00FF;
+}
+
+/* ─── Dark Mode (default) ─── */
+.dark {
+  --bg-primary: #050508;
+  --bg-secondary: #0d0d14;
+  --bg-card: #111118;
+  --text-primary: #f0f0f0;
+  --text-secondary: #8888aa;
+  --border: rgba(255,255,255,0.07);
+}
+
+/* ─── Light Mode ─── */
+.light {
+  --bg-primary: #f8f9fc;
+  --bg-secondary: #eef0f7;
+  --bg-card: #ffffff;
+  --text-primary: #0d0d14;
+  --text-secondary: #555577;
+  --border: rgba(0,0,0,0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Cabinet Grotesk', sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-secondary); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+/* ─── Utility Classes ─── */
+.font-display { font-family: 'Clash Display', sans-serif; }
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+.text-accent { color: var(--accent); }
+.bg-card { background: var(--bg-card); }
+.border-theme { border-color: var(--border); }
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--neon-blue) 50%, var(--neon-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--text-primary) 0%,
+    var(--accent) 30%,
+    var(--neon-blue) 50%,
+    var(--accent) 70%,
+    var(--text-primary) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: textShimmer 4s linear infinite;
+}
+
+@keyframes textShimmer {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* Glow effects */
+.glow-accent {
+  box-shadow: 0 0 20px rgba(0,255,148,0.4), 0 0 60px rgba(0,255,148,0.1);
+}
+.glow-accent-text {
+  text-shadow: 0 0 20px rgba(0,255,148,0.6);
+}
+.glow-blue {
+  box-shadow: 0 0 20px rgba(0,212,255,0.4);
+}
+
+/* Grid background */
+.grid-bg-dark {
+  background-image: linear-gradient(rgba(0,255,148,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,148,0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+.grid-bg-light {
+  background-image: linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Card styles */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+.glass-card:hover {
+  border-color: rgba(0,255,148,0.3);
+  box-shadow: 0 8px 40px rgba(0,255,148,0.08);
+  transform: translateY(-2px);
+}
+
+/* Accent button */
+.btn-accent {
+  background: var(--accent);
+  color: #050508;
+  font-weight: 700;
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Clash Display', sans-serif;
+  letter-spacing: 0.05em;
+}
+.btn-accent:hover {
+  background: #fff;
+  box-shadow: 0 0 30px rgba(0,255,148,0.5);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Clash Display', sans-serif;
+  letter-spacing: 0.05em;
+}
+.btn-outline:hover {
+  background: rgba(0,255,148,0.1);
+  box-shadow: 0 0 30px rgba(0,255,148,0.2);
+}
+
+/* Section headings */
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+/* Skill bar */
+.skill-bar-fill {
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--neon-blue));
+  border-radius: 999px;
+  transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 0 8px rgba(0,255,148,0.6);
+}
+
+/* Nav link */
+.nav-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  transition: color 0.3s;
+  position: relative;
+  padding: 0.25rem 0;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+.nav-link:hover { color: var(--accent); }
+.nav-link:hover::after { width: 100%; }
+.nav-link.active { color: var(--accent); }
+.nav-link.active::after { width: 100%; }
+
+/* Cursor blink */
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Floating particles */
+@keyframes floatParticle {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+}
+
+/* Section reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Timeline line */
+.timeline-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+}
+
+/* Noise texture overlay */
+.noise::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
