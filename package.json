@@ -1,0 +1,14 @@
+{
+  "name": "satyapal-portfolio",
+  "version": "1.0.0",
+  "description": "Satyapal Gaikwad - Full Stack Portfolio",
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
+    "start": "cd backend && npm start",
+    "build": "cd frontend && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
