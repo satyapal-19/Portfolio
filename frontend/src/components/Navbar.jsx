@@ -130,7 +130,7 @@ export default function Navbar() {
 
         {/* Resume Button */}
         <a
-          href="https://drive.google.com/file/d/your-resume-link"
+          href="https://drive.google.com/file/d/14hX3mpY1VkopsPrCbaUyalyLHIyEiwLZ/view?usp=drive_link"
           target="_blank"
           rel="noopener noreferrer"
           className="btn-outline"
