@@ -59,7 +59,7 @@ export default function Contact() {
      const API =
   window.location.hostname === "localhost"
     ? "http://localhost:5000"
-    : "portfolio-production-fe7cd.up.railway.app";
+    : "https://portfolio-production-fe7cd.up.railway.app";
 
 axios.post(`${API}/api/contact`, formData);
       if (res.data.success) {
