@@ -4,8 +4,10 @@
  * BACKEND_URL is preferred for the proxy only; VITE_API_URL also works so one env var is enough.
  */
 function backendOrigin() {
-  const raw = (process.env.BACKEND_URL || process.env.VITE_API_URL || '').trim();
-  return raw.startsWith('http') ? raw.replace(/\/$/, '') : '';
+  let s = (process.env.BACKEND_URL || process.env.VITE_API_URL || '').trim().replace(/\/$/, '');
+  if (!s) return '';
+  if (!/^https?:\/\//i.test(s)) s = `https://${s}`;
+  return s;
 }
 
 export default async function handler(req, res) {
