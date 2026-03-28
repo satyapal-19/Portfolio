@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { contactSubmitUrl } from '../api/contactEndpoint';
 
 const LINKEDIN_PROFILE = 'https://www.linkedin.com/in/satyapal-gaikwad';
 
@@ -58,7 +59,7 @@ export default function Contact() {
 
     setLoading(true);
     try {
-      const res = await axios.post('/api/contact', form);
+      const res = await axios.post(contactSubmitUrl, form);
       if (res.data.success) {
         setSent(true);
         setForm(initialForm);

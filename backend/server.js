@@ -5,15 +5,44 @@ const cors = require('cors');
 
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://satyapalgaikwad.vercel.app"
-  ],
-  methods: ["GET", "POST"],
-  credentials: true
-}));;
+function buildAllowedOrigins() {
+  const set = new Set([
+    'http://localhost:5173',
+    'https://satyapalgaikwad.vercel.app',
+  ]);
+  const fromEnv = (process.env.ALLOWED_ORIGINS || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  fromEnv.forEach((o) => set.add(o));
+  if (process.env.CLIENT_URL) set.add(process.env.CLIENT_URL.trim());
+  return set;
+}
+
+const allowedOrigins = buildAllowedOrigins();
+const allowVercelPreviews = process.env.CORS_ALLOW_VERCEL_PREVIEWS === 'true';
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.has(origin)) return callback(null, true);
+      if (allowVercelPreviews) {
+        try {
+          const host = new URL(origin).hostname;
+          if (host === 'vercel.app' || host.endsWith('.vercel.app')) {
+            return callback(null, true);
+          }
+        } catch {
+          /* ignore */
+        }
+      }
+      return callback(null, false);
+    },
+    methods: ['GET', 'POST'],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -38,11 +67,12 @@ app.use((err, req, res, next) => {
 // Connect to MongoDB and start server
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(process.env.MONGODB_URI)
+mongoose
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('✅ MongoDB connected successfully');
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
