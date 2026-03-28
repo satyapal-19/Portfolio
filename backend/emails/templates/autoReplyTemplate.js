@@ -29,13 +29,6 @@ function autoReplyTemplate({ name, subject }) {
       <td align="center">
         <table role="presentation" width="100%" style="max-width:560px;border-collapse:collapse;">
           <tr>
-            <td style="padding:0 0 20px 0;text-align:center;">
-              <span style="display:inline-block;font-family:'Courier New',monospace;font-size:13px;font-weight:700;letter-spacing:0.15em;color:${ACCENT};border:1px solid rgba(0,255,148,0.35);padding:8px 14px;border-radius:8px;">
-                // ${escapeHtml(BRAND_NAME)}
-              </span>
-            </td>
-          </tr>
-          <tr>
             <td style="background:${BG_CARD};border:1px solid ${BORDER};border-radius:16px;overflow:hidden;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
