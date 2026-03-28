@@ -2,9 +2,11 @@ import { useRef, useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
+const LINKEDIN_PROFILE = 'https://www.linkedin.com/in/satyapal-gaikwad';
+
 const contactInfo = [
   { icon: '✉', label: 'Email', value: 'satypalgaikwad1234@gmail.com', href: 'mailto:satypalgaikwad1234@gmail.com' },
-  { icon: 'in', label: 'LinkedIn', value: 'satyapal-gaikwad', href: 'http://www.linkedin.com/in/satyapal-gaikwad' },
+  { icon: 'in', label: 'LinkedIn', value: 'satyapal-gaikwad', href: LINKEDIN_PROFILE },
   { icon: '⌥', label: 'GitHub', value: 'satyapal-19', href: 'https://github.com/satyapal-19' },
   { icon: '{ }', label: 'LeetCode', value: 'SatyapalRGaikwad', href: 'https://leetcode.com/u/SatyapalRGaikwad/' },
   { icon: '📍', label: 'Location', value: 'Pandharpur, Maharashtra, India', href: null },
@@ -45,40 +47,30 @@ export default function Contact() {
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  const errs = validate();
-  if (Object.keys(errs).length > 0) {
-    setErrors(errs);
-    toast.error('Please fix the errors below');
-    return;
-  }
-
-  setLoading(true);
-
-  try {
-    const API =
-      window.location.hostname === "localhost"
-        ? "http://localhost:5000"
-        : "https://portfolio-production-fe7cd.up.railway.app";
-
-    const res = await axios.post(`${API}/api/contact`, form);
-
-    if (res.data.success) {
-      setSent(true);
-      setForm(initialForm);
-      toast.success(res.data.message || 'Message sent! 🚀');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
+      toast.error('Please fix the errors below');
+      return;
     }
 
-  } catch (err) {
-    console.error(err);
-    const msg = err.response?.data?.message || 'Something went wrong. Please try again.';
-    toast.error(msg);
-  } finally {
-    setLoading(false);
-  }
-};
+    setLoading(true);
+    try {
+      const res = await axios.post('/api/contact', form);
+      if (res.data.success) {
+        setSent(true);
+        setForm(initialForm);
+        toast.success(res.data.message || 'Message sent! I\'ll get back to you soon 🚀');
+      }
+    } catch (err) {
+      const msg = err.response?.data?.message || 'Something went wrong. Please try again.';
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const inputStyle = (field) => ({
     width: '100%',
@@ -145,10 +137,30 @@ const handleSubmit = async (e) => {
               fontSize: '1.25rem',
               fontWeight: 700,
               color: 'var(--text-primary)',
-              marginBottom: '1.5rem',
+              marginBottom: '1rem',
             }}>
               Contact Info
             </h3>
+
+            <a
+              href={LINKEDIN_PROFILE}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-accent"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                marginBottom: '1.5rem',
+                textDecoration: 'none',
+                width: '100%',
+                boxSizing: 'border-box',
+              }}
+            >
+              <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.75rem', opacity: 0.9 }}>in</span>
+              Connect me
+            </a>
 
             {contactInfo.map(c => (
               <div key={c.label} style={{
