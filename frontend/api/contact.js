@@ -1,8 +1,13 @@
 /**
- * Vercel serverless: POST /api/contact → BACKEND_URL/api/contact
- * Set BACKEND_URL in Vercel (server env) to your Express API origin, no trailing slash
- * (e.g. https://your-app.up.railway.app). Keeps the SPA on same-origin /api/contact.
+ * Vercel serverless: POST /api/contact → {origin}/api/contact
+ * Set BACKEND_URL or VITE_API_URL in Vercel to your Express API origin (no trailing slash).
+ * BACKEND_URL is preferred for the proxy only; VITE_API_URL also works so one env var is enough.
  */
+function backendOrigin() {
+  const raw = (process.env.BACKEND_URL || process.env.VITE_API_URL || '').trim();
+  return raw.startsWith('http') ? raw.replace(/\/$/, '') : '';
+}
+
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -14,12 +19,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ success: false, message: 'Method not allowed' });
   }
 
-  const base = process.env.BACKEND_URL;
-  if (!base || !base.startsWith('http')) {
+  const base = backendOrigin();
+  if (!base) {
     return res.status(503).json({
       success: false,
       message:
-        'Contact API is not configured. In Vercel Project → Environment Variables, set BACKEND_URL to your deployed backend URL (e.g. https://xxx.up.railway.app).',
+        'Contact API is not configured. In Vercel → Settings → Environment Variables, set VITE_API_URL or BACKEND_URL to your API origin (e.g. https://xxx.up.railway.app), then redeploy.',
     });
   }
 
@@ -30,7 +35,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ success: false, message: 'Invalid JSON body' });
   }
 
-  const url = `${base.replace(/\/$/, '')}/api/contact`;
+  const url = `${base}/api/contact`;
 
   let upstream;
   try {
