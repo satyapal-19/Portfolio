@@ -5,6 +5,11 @@ const cors = require('cors');
 
 const app = express();
 
+// Required for Railway/Render/Heroku — they sit behind a reverse proxy.
+// This lets express-rate-limit correctly read the real client IP from
+// the X-Forwarded-For header instead of throwing ERR_ERL_UNEXPECTED_X_FORWARDED_FOR.
+app.set('trust proxy', 1);
+
 function buildAllowedOrigins() {
   const set = new Set([
     'http://localhost:5173',

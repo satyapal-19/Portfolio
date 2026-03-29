@@ -23,12 +23,17 @@ exports.submitContact = async (req, res) => {
 
     const notifyTo = process.env.CONTACT_MAIL_TO || process.env.EMAIL_USER;
 
-    await sendEmail({
-      to: notifyTo,
-      subject: `[Portfolio] ${subject} — ${name}`,
-      html: notificationTemplate({ name, email, subject, message }),
-      replyTo: email,
-    });
+    // Wrap both emails — a failed send must never block the 201 response
+    try {
+      await sendEmail({
+        to: notifyTo,
+        subject: `[Portfolio] ${subject} — ${name}`,
+        html: notificationTemplate({ name, email, subject, message }),
+        replyTo: email,
+      });
+    } catch (notifyErr) {
+      console.error('Notification email failed:', notifyErr.message);
+    }
 
     try {
       await sendEmail({
