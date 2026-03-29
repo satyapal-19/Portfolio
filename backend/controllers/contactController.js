@@ -11,19 +11,20 @@ exports.submitContact = async (req, res) => {
       return res.status(400).json({ success: false, message: 'All fields are required' });
     }
 
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-      console.error('Contact form: EMAIL_USER or EMAIL_PASS is not set');
+    if (!process.env.RESEND_API_KEY) {
+      console.error('Contact form: RESEND_API_KEY is not set');
       return res.status(503).json({
         success: false,
-        message: 'Contact email is not configured on the server. Please try again later.',
+        message: 'Email service not configured. Please try again later.',
       });
     }
 
+    // Save to MongoDB first — always
     const contact = await Contact.create({ name, email, subject, message });
 
-    const notifyTo = process.env.CONTACT_MAIL_TO || process.env.EMAIL_USER;
+    const notifyTo = process.env.CONTACT_MAIL_TO || 'satypalgaikwad1234@gmail.com';
 
-    // Wrap both emails — a failed send must never block the 201 response
+    // Notify Satyapal
     try {
       await sendEmail({
         to: notifyTo,
@@ -35,6 +36,7 @@ exports.submitContact = async (req, res) => {
       console.error('Notification email failed:', notifyErr.message);
     }
 
+    // Auto-reply to sender
     try {
       await sendEmail({
         to: email,
@@ -55,7 +57,7 @@ exports.submitContact = async (req, res) => {
       const messages = Object.values(error.errors).map((e) => e.message);
       return res.status(400).json({ success: false, message: messages.join(', ') });
     }
-    console.error('submitContact:', error.message);
+    console.error('submitContact error:', error.message);
     res.status(500).json({ success: false, message: 'Server error. Please try again later.' });
   }
 };
