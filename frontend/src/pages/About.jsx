@@ -132,7 +132,7 @@ export default function About() {
             }}>
               I've had hands-on exposure to <span style={{ color: 'var(--text-primary)' }}>cybersecurity</span> through my internship at
               CDAC Noida, where I worked on network threat detection using Security Onion, Zeek, and Suricata.
-              Outside tech, I'm an avid problem-solver with 300+ coding challenges conquered on LeetCode and CodeChef.
+              Outside tech, I'm an avid problem-solver with 400+ coding challenges conquered on LeetCode and CodeChef.
             </p>
 
             {/* Education Timeline */}
@@ -210,7 +210,7 @@ export default function About() {
                     ))}
                   </div>
                   <div><span style={{ color: 'var(--text-secondary)' }}>],</span></div>
-                  <div><span style={{ color: '#00FF94' }}>leetcode</span><span style={{ color: 'var(--text-secondary)' }}>:</span> <span style={{ color: '#FF79C6' }}>300</span><span style={{ color: 'var(--text-secondary)' }}>{' + ' + '"problems solved"'}</span><span style={{ color: 'var(--text-secondary)' }}>,</span></div>
+                  <div><span style={{ color: '#00FF94' }}>leetcode</span><span style={{ color: 'var(--text-secondary)' }}>:</span> <span style={{ color: '#FF79C6' }}>400</span><span style={{ color: 'var(--text-secondary)' }}>{' + ' + '"problems solved"'}</span><span style={{ color: 'var(--text-secondary)' }}>,</span></div>
                   <div><span style={{ color: '#00FF94' }}>available</span><span style={{ color: 'var(--text-secondary)' }}>:</span> <span style={{ color: '#FF79C6' }}>true</span></div>
                 </div>
                 <div><span style={{ color: 'var(--text-secondary)' }}>{'}'}</span><span style={{ color: 'var(--text-secondary)' }}>;</span></div>
@@ -240,7 +240,7 @@ export default function About() {
           transition: 'all 0.8s ease 0.6s',
         }}>
           <StatCard value={8} suffix=".54" label="CGPA" />
-          <StatCard value={300} suffix="+" label="Problems Solved" />
+          <StatCard value={400} suffix="+" label="Problems Solved" />
           <StatCard value={2} label="Projects Built" />
           <StatCard value={1} label="Internship" />
           <StatCard value={95} suffix="%" label="CBSE X Score" />

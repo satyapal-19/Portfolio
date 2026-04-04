@@ -298,13 +298,13 @@ export default function Projects() {
               Problem Solving — LeetCode & CodeChef
             </div>
             <p style={{ fontFamily: 'Cabinet Grotesk, sans-serif', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-              300+ problems solved covering Arrays, Strings, Binary Search, Recursion, Greedy algorithms, and more.
+              400+ problems solved covering Arrays, Strings, Binary Search, Recursion, Greedy algorithms, and more.
             </p>
           </div>
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             {[
               { label: 'LeetCode', href: 'https://leetcode.com/u/SatyapalRGaikwad/' },
-              { label: 'CodeChef', href: '#' },
+              { label: 'CodeChef', href: 'https://www.codechef.com/users/open_door_63' },
             ].map(p => (
               <a
                 key={p.label}
